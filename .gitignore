@@ -1,0 +1,11 @@
+*h5
+*.png
+*.svg
+*.zip
+*.tif
+*.pdf
+*.csv
+*.xls
+__pycache__/
+Data/
+tests.ipynb
