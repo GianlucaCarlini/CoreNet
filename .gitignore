@@ -8,4 +8,5 @@
 *.xls
 __pycache__/
 Data/
+Results/
 tests.ipynb
