@@ -1,0 +1,3 @@
+[submodule "segmentation_models"]
+	path = segmentation_models
+	url = https://github.com/GianlucaCarlini/segmentation_models.git
