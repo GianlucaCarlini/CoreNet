@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from segmentation_models.models import Unet
+from .segmentation_models.core.models import Unet
 import cv2
 import os
 from sklearn.metrics import (

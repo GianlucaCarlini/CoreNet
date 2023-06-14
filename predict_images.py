@@ -3,9 +3,9 @@ import numpy as np
 import os
 import cv2
 import argparse
-from segmentation_models.utils import predict_big_image
+from segmentation_models.core.utils import predict_big_image
 import matplotlib.pyplot as plt
-from segmentation_models.models import Unet
+from segmentation_models.core.models import Unet
 from matplotlib.colors import Normalize
 
 palette = np.array(
