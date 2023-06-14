@@ -10,40 +10,56 @@ parser = argparse.ArgumentParser(description="Save patches from images and masks
 parser.add_argument(
     "--imdir",
     type=str,
-    help="Path to the directory containing the images",
+    help="Path to the directory containing the images (optional), defaults to ./Images",
     default="./Images",
 )
 parser.add_argument(
     "--maskdir",
     type=str,
-    help="Path to the directory containing the masks",
+    help="Path to the directory containing the masks (optional), defaults to ./Masks",
     default="./Masks",
 )
 parser.add_argument(
     "--saveimdir",
     type=str,
-    help="Path to the directory where the image patches will be saved",
+    help="Path to the directory where the image patches will be saved (optional), defaults to ./Images_patches",
     default="./Images_patches",
 )
 parser.add_argument(
     "--savemaskdir",
     type=str,
-    help="Path to the directory where the mask patches will be saved",
+    help="Path to the directory where the mask patches will be saved (optional), defaults to ./Masks_patches",
     default="./Masks_patches",
 )
-parser.add_argument("--patch_size", type=int, help="Size of the patches", default=384)
-parser.add_argument("--stride", type=int, help="Size of the stride", default=384)
+parser.add_argument(
+    "--patch_size",
+    type=int,
+    help="Size of the patches (optional), defaults to 384",
+    default=384,
+)
+parser.add_argument(
+    "--stride",
+    type=int,
+    help="Size of the stride (optional), defaults to 384",
+    default=384,
+)
 parser.add_argument(
     "--thresh",
     type=float,
-    help="Threshold to exclude patches that are mostly background",
+    help="Threshold to exclude patches that are mostly background (optional), defaults to 0.1",
     default=0.1,
 )
 parser.add_argument(
-    "--target_h", type=int, help="Target height of the images", default=1538
+    "--target_h",
+    type=int,
+    help="Target height of the images (optional), defaults to 1538",
+    default=1538,
 )
 parser.add_argument(
-    "--target_w", type=int, help="Target width of the images", default=3074
+    "--target_w",
+    type=int,
+    help="Target width of the images (optional), defaults to 3074",
+    default=3074,
 )
 
 args = parser.parse_args()

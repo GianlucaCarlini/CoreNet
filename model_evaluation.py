@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
-from .segmentation_models.core.models import Unet
+from segmentation_models.models import Unet
 import cv2
 import os
 from sklearn.metrics import (
@@ -19,32 +19,42 @@ parser = argparse.ArgumentParser(description="Evaluate model")
 parser.add_argument(
     "--imdir",
     type=str,
-    help="Path to the directory containing the image patches",
+    help="Path to the directory containing the image patches (optional), defaults to ./Images",
     default="./Images",
 )
 parser.add_argument(
     "--maskdir",
     type=str,
-    help="Path to the directory containing the mask patches",
+    help="Path to the directory containing the mask patches (optional), defaults to ./Masks",
     default="./Masks",
 )
 parser.add_argument(
     "--savedir",
     type=str,
-    help="Path to the directory where the results will be saved",
+    help="Path to the directory where the results will be saved (optional), defaults to ./Results",
     default="./Results",
 )
 parser.add_argument(
     "--save_cm",
     type=bool,
-    help="Whether to save the confusion matrix",
+    help="Whether to save the confusion matrix (optional), defaults to True",
     default=True,
 )
 parser.add_argument(
-    "--weights", type=str, help="Path to the model weights", default="./weights.h5"
+    "--weights",
+    type=str,
+    help="Path to the model weights (optional), defaults to ./weights.h5",
+    default="./weights.h5",
 )
-parser.add_argument("--patch_size", type=int, help="Size of the patches", default=384)
-parser.add_argument("--batch_size", type=int, help="Batch size", default=8)
+parser.add_argument(
+    "--patch_size",
+    type=int,
+    help="Size of the patches (optional), defaults to 384",
+    default=384,
+)
+parser.add_argument(
+    "--batch_size", type=int, help="Batch size (optional), defaults to 8", default=8
+)
 
 args = parser.parse_args()
 

@@ -3,9 +3,9 @@ import numpy as np
 import os
 import cv2
 import argparse
-from segmentation_models.core.utils import predict_big_image
+from segmentation_models.utils import predict_big_image
 import matplotlib.pyplot as plt
-from segmentation_models.core.models import Unet
+from segmentation_models.models import Unet
 from matplotlib.colors import Normalize
 
 palette = np.array(
@@ -25,44 +25,71 @@ parser = argparse.ArgumentParser(description="Predict images")
 parser.add_argument(
     "--imdir",
     type=str,
-    help="Path to the directory containing the images",
+    help="Path to the directory containing the images (optional), defaults to ./Images",
     default="./Images",
 )
 parser.add_argument(
     "--maskdir",
     type=str,
-    help="Path to the directory containing the masks",
+    help="Path to the directory containing the masks (optional), defaults to ./Mask",
     default=None,
 )
 parser.add_argument(
-    "--weights", type=str, help="Path to the model weights", default="./weights.h5"
+    "--weights",
+    type=str,
+    help="Path to the model weights (optional), defaults to ./weights.h5",
+    default="./weights.h5",
 )
 parser.add_argument(
     "--saveimdir",
     type=str,
-    help="Path to the directory where the predicted images will be saved",
+    help="Path to the directory where the predicted images will be saved (optional), defaults to ./Predictions",
     default="./Predictions",
 )
 parser.add_argument(
-    "--target_h", type=int, help="Target height of the images", default=1538
+    "--target_h",
+    type=int,
+    help="Target height of the images (optional), defaults to 1538",
+    default=1538,
 )
 parser.add_argument(
-    "--target_w", type=int, help="Target width of the images", default=3074
+    "--target_w",
+    type=int,
+    help="Target width of the images (optional), defaults to 3074",
+    default=3074,
 )
-parser.add_argument("--patch_size", type=int, help="Size of the patches", default=384)
-parser.add_argument("--stride", type=int, help="Size of the stride", default=96)
-parser.add_argument("--batch_size", type=int, help="Batch size", default=8)
+parser.add_argument(
+    "--patch_size",
+    type=int,
+    help="Size of the patches (optional), defaults to 384",
+    default=384,
+)
+parser.add_argument(
+    "--stride",
+    type=int,
+    help="Size of the stride (optional), defaults to 96",
+    default=96,
+)
+parser.add_argument(
+    "--batch_size", type=int, help="Batch size (optional), defaults to 8", default=8
+)
 parser.add_argument(
     "--resized_images",
     type=bool,
-    help="Whether to save a copy of the resized images",
+    help="Whether to save a copy of the resized images (optional), defaults to True",
     default=True,
 )
 parser.add_argument(
-    "--confidence", type=bool, help="Whether to save the confidence maps", default=True
+    "--confidence",
+    type=bool,
+    help="Whether to save the confidence maps (optional), defaults to True",
+    default=True,
 )
 parser.add_argument(
-    "--error", type=bool, help="Whether to save the error maps", default=True
+    "--error",
+    type=bool,
+    help="Whether to save the error maps (optional), defaults to True",
+    default=True,
 )
 
 args = parser.parse_args()
