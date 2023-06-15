@@ -79,11 +79,11 @@ It accepts the following arguments:
 from segmentation_models.models import Unet
 #resnet
 model = Unet(
-    input_shape(384, 384, 3), backbone="resnet50", classes=1, final_activation="sigmoid"
+    input_shape=(384, 384, 3), backbone="resnet50", classes=1, final_activation="sigmoid"
 )
 #efficientnet
 model = Unet(
-    input_shape(384, 384, 3), backbone="efficientnetb0", classes=1, final_activation="sigmoid"
+    input_shape=(384, 384, 3), backbone="efficientnetb0", classes=1, final_activation="sigmoid"
 )
 ```
 
