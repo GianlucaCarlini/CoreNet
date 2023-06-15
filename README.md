@@ -10,26 +10,6 @@ Official implementation of the paper "PAPER" (DOI: PAPER_DOI).
 
 ## Usage
 
-### Generate patches
-
-The script [save_patches.py](save_patches.py) can be used to extract patches from a given image. It is useful only if you want to train a new model from scratch. The script can be used as follows:
-
-```bash
-python save_patches.py --imdir IMAGE_PATH --maskdir MASK_PATH --saveimdir SAVE_IMAGE_PATH --savemaskdir SAVE_MASK_PATH
-```
-
-It accepts the following arguments:
-
-- `--imdir`: Path to the directory containing the images. Default: ./Images
-- `--maskdir`: Path to the directory containing the masks. Default: ./Masks
-- `--saveimdir`: Path to the directory where the extracted patches will be saved. Default: ./Images_patches
-- `--savemaskdir`: Path to the directory where the extracted masks will be saved. Default: ./Masks_patches
-- `--patch_size`: Size of the patches to be extracted. Default: 384
-- `--stride`: Stride of the sliding window for patch saving. If < patch_size, overlapping patches will be produced. Default: 384
-- `--trhesh`: Threshold to exclude patches that are mostly background. Default: 0.1
-- `--target_h`: Target height of the images. Default: 1538
-- `--target_w`: Target width of the images. Default: 3074
-
 ### Predict full resolution images with a trained model
 
 The script [predict_images.py](predict_images.py) can be used to predict the segmentation masks of a given set of images. It can also produce the confidence and error maps as described in the paper. In order to produce the error maps, maskdir must be specified. It can be used as follows:
@@ -63,14 +43,72 @@ python model_evaluation.py --imdir IMAGE_PATH --maskdir MASK_PATH --savedir SAVE
 
 It accepts the following arguments:
 
-- `--imdir`: Path to the directory containing the images. Default: ./Images
-- `--maskdir`: Path to the directory containing the masks. Default: ./Masks
+- `--imdir`: Path to the directory containing the image patches. Default: ./Images
+- `--maskdir`: Path to the directory containing the mask patches. Default: ./Masks
 - `--savedir`: Path to the directory where the evaluation results will be saved. Default: ./Results
 - `--weights`: Path to the weights of the trained model. Default: ./weights.h5
 - `--patch_size`: Size of the patches to be extracted. Default: 384
 - `--save_cm` : If specified, the confusion matrix will be saved. Default: True
 - `--batch_size`: Batch size for prediction. Default: 8
 
+### Generate patches
+
+The script [save_patches.py](save_patches.py) can be used to extract patches from a given image. It is useful only if you want to train a new model from scratch. The script can be used as follows:
+
+```bash
+python save_patches.py --imdir IMAGE_PATH --maskdir MASK_PATH --saveimdir SAVE_IMAGE_PATH --savemaskdir SAVE_MASK_PATH
+```
+
+It accepts the following arguments:
+
+- `--imdir`: Path to the directory containing the images. Default: ./Images
+- `--maskdir`: Path to the directory containing the masks. Default: ./Masks
+- `--saveimdir`: Path to the directory where the extracted patches will be saved. Default: ./Images_patches
+- `--savemaskdir`: Path to the directory where the extracted masks will be saved. Default: ./Masks_patches
+- `--patch_size`: Size of the patches to be extracted. Default: 384
+- `--stride`: Stride of the sliding window for patch saving. If < patch_size, overlapping patches will be produced. Default: 384
+- `--trhesh`: Threshold to exclude patches that are mostly background. Default: 0.1
+- `--target_h`: Target height of the images. Default: 1538
+- `--target_w`: Target width of the images. Default: 3074
+
+### Train your own model
+
+[main.py](main.py) can be used to train a segmentation model from scratch. The script reflects the training procedure described in the paper; if you wish to use your own training strategy you will need to either modify the script or write a new one. The code relies on another repo I was developing called [segmentation_models](https://github.com/GianlucaCarlini/segmentation_models), which contains implementations for various segmentation models written in Tensorflow. You can for example instantiate a U-Net with different backbones as follows:
+
+```python
+from segmentation_models.models import Unet
+#resnet
+model = Unet(
+    input_shape(384, 384, 3), backbone="resnet50", classes=1, final_activation="sigmoid"
+)
+#efficientnet
+model = Unet(
+    input_shape(384, 384, 3), backbone="efficientnetb0", classes=1, final_activation="sigmoid"
+)
+```
+
+However, since I'm currently switching to Pytorch, it is possible that the repo will not be updated anymore. In any case, it is just an utility repo and you can easily write your own model or use any other segmentation model implementation.
+
+The script can be used as follows:
+
+```bash
+python main.py --trainimdir TRAIN_IMAGE_PATH --trainmaskdir TRAIN_MASK_PATH --valimdir VAL_IMAGE_PATH --valmaskdir VAL_MASK_PATH
+```
+
+It accepts the following arguments:
+
+- `--trainimdir`: Path to the directory containing the training images. Default: ./train_image_patches
+- `--trainmaskdir`: Path to the directory containing the training masks. Default: ./train_masks_patches
+- `--valimdir`: Path to the directory containing the validation images. Default: ./val_images_patches
+- `--valmaskdir`: Path to the directory containing the validation masks. Default: ./val_masks_patches
+- `--backbone`: Backbone to be used for the model. Default: efficientnetb3
+- `--batch_size`: Batch size for training. Default: 8
+- `--epochs`: Number of epochs. Default: 100
+- `--lr`: Learning rate. Default: 1e-4
+- `--final_lr`: Final learning rate. Default: 5e-6
+- `--patch_size`: Size of the patches. Default: 384
+- `--ckpt_path`: Path to save the model checkpoints. Default: ./ckpt
+- `--history_path`: Path to save the training history. Default: ./history
 
 
 

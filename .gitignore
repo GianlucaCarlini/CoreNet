@@ -1,4 +1,3 @@
-*h5
 *.svg
 *.zip
 *.tif
@@ -8,4 +7,6 @@
 __pycache__/
 Data/
 Results/
+history/
+ckpt/
 tests.ipynb
