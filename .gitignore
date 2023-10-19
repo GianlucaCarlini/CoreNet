@@ -4,6 +4,7 @@
 *.pdf
 *.csv
 *.xls
+*.json
 __pycache__/
 Data/
 Results/
