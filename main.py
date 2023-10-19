@@ -42,6 +42,9 @@ parser.add_argument(
     default="efficientnetb3",
 )
 parser.add_argument(
+    "--weights", type=str, help="Weights to use (optional)", default=None
+)
+parser.add_argument(
     "--batch_size", type=int, help="Batch size (optional), defaults to 8", default=8
 )
 parser.add_argument(
@@ -101,7 +104,6 @@ class Augment(tf.keras.layers.Layer):
         self.rnd_bright = tf.keras.layers.RandomBrightness(factor=0.05, seed=seed)
 
     def call(self, inputs, labels):
-
         inputs = self.rotate_inputs(inputs)
         labels = self.rotate_labels(labels)
         inputs = self.rnd_contrast(inputs)
@@ -111,11 +113,11 @@ class Augment(tf.keras.layers.Layer):
 
 
 def main(args):
-
     train_imdir = args.trainimdir
     train_maskdir = args.trainmaskdir
     val_imdir = args.valimdir
     val_maskdir = args.valmaskdir
+    weights = args.weights
     backbone = args.backbone
     batch_size = args.batch_size
     epochs = args.epochs
@@ -179,6 +181,12 @@ def main(args):
     model = Unet(
         (384, 384, 3), backbone="efficientnetb3", classes=7, final_activation="softmax"
     )
+
+    if weights is not None:
+        model.load_weights(weights)
+        print(f"\nSuccesfully loaded weights: {weights}\n")
+    else:
+        print("\nWeights were not provided, the model will be trained from scratch\n")
     model.compile(
         optimizer=tf.keras.optimizers.Adam(
             learning_rate=learning_rate_fn,
@@ -211,7 +219,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     print("Training the model... \n")
 
     print(f"EPOCHS: {args.epochs} \n")
