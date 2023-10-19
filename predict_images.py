@@ -37,8 +37,8 @@ parser.add_argument(
 parser.add_argument(
     "--weights",
     type=str,
-    help="Path to the model weights (optional), defaults to ./weights.h5",
-    default="./weights.h5",
+    help="Path to the model weights (optional), defaults to ./best_model.h5",
+    default="./best_model.h5",
 )
 parser.add_argument(
     "--saveimdir",
@@ -96,7 +96,6 @@ args = parser.parse_args()
 
 
 def quantization(img, palette):
-
     distance = np.linalg.norm(img[:, :, None] - palette[None, None, :], axis=3)
 
     quantized = np.argmin(distance, axis=2).astype("uint8")
@@ -105,7 +104,6 @@ def quantization(img, palette):
 
 
 def main(args):
-
     imdir = args.imdir
     maskdir = args.maskdir
     weights = args.weights
@@ -150,7 +148,6 @@ def main(args):
 
     # Loop over the images
     for imname, maskname in zip(imlist, masklist):
-
         print(f"Predicting {imname} \n")
 
         # Load the image
@@ -196,7 +193,6 @@ def main(args):
 
         # Save the confidence map
         if confidence:
-
             pred_confidence = np.max(pred, axis=-1)
 
             norm = Normalize(vmin=pred_confidence.min(), vmax=pred_confidence.max())
@@ -241,7 +237,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     print("\nPredicting images... \n")
 
     main(args)

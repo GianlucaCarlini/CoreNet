@@ -43,8 +43,8 @@ parser.add_argument(
 parser.add_argument(
     "--weights",
     type=str,
-    help="Path to the model weights (optional), defaults to ./weights.h5",
-    default="./weights.h5",
+    help="Path to the model weights (optional), defaults to ./best_model.h5",
+    default="./best_model.h5",
 )
 parser.add_argument(
     "--patch_size",
@@ -60,7 +60,6 @@ args = parser.parse_args()
 
 
 def main(args):
-
     imdir = args.imdir
     maskdir = args.maskdir
     weights = args.weights
@@ -105,15 +104,20 @@ def main(args):
     predictions = []
     labels = []
 
-    for x, y in test_ds:
+    print("\nPredicting the images for model evaluation...\n")
 
-        pred = model.predict(x)
+    for x, y in test_ds:
+        pred = model.predict(x, verbose=False)
 
         pred = tf.argmax(pred, axis=-1)
 
         predictions.append(pred.numpy())
 
         labels.append(y.numpy())
+
+    print("Done! \n")
+
+    print("Computing the metrics...\n")
 
     prediction_array = np.concatenate(predictions, axis=0)
     prediction_array = np.ravel(prediction_array)
@@ -137,7 +141,6 @@ def main(args):
     results_df.to_csv(os.path.join(savedir, "metrics.csv"), index=False)
 
     if save_cm:
-
         names = [
             "Background",
             "WDFP",
@@ -166,7 +169,6 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     print("Evaluating model...")
 
     main(args)
