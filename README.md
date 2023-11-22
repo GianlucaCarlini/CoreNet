@@ -1,6 +1,6 @@
 # CoreNet
 
-Official implementation of the paper "PAPER" (DOI: PAPER_DOI).
+Official implementation of the paper [**Sediment core analysis using artificial intelligence**](https://www.nature.com/articles/s41598-023-47546-2) (DOI: 10.1038/s41598-023-47546-2).
 
 ![test_visual_evaluation](Samples/test_visual_evaluation.png)
 
